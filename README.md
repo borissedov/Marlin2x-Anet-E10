@@ -1,3 +1,21 @@
+# Anet E10 configuration for Marlin 2.x
+
+Forked from original Marlin repository.
+
+To upload the frimeware to your Anet E10 you'll need to configure your Arduino IDE:
+
+- Add https://raw.githubusercontent.com/benlye/anet-board/board-manager/package_skynet3d_anet_board_index.json to the Additional Boards Manager URLs in Arduino IDE Preferences. That will allow you to select Anet V1.0 board as build target.
+- Download U8glib Library from (https://github.com/olikraus/U8glib_Arduino/archive/1.19.1.zip), import that to your Arduino IDE and include in your project.
+
+Now you'll be able to connect your Anet E10 thru USB cable and upload your frimeware.
+
+##Arduino IDE config for sketch build and upload:
+
+setting|value
+-------|-----
+Board|Anet V1.0
+Programmer|ArduinoISP.org
+
 # Marlin 3D Printer Firmware
 
 [![Build Status](https://travis-ci.org/MarlinFirmware/Marlin.svg?branch=RCBugFix)](https://travis-ci.org/MarlinFirmware/Marlin)
