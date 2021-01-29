@@ -1,15 +1,34 @@
-// https://github.com/niteris/ArduinoSoftSpi
+/**
+ * Marlin 3D Printer Firmware
+ * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ *
+ * Based on Sprinter and grbl.
+ * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ */
+#pragma once
 
-#include <Arduino.h>
+//
+// Based on https://github.com/niteris/ArduinoSoftSpi
+//
+
+#include "../HAL/shared/Marduino.h"
 
 #ifndef FORCE_INLINE
   #define FORCE_INLINE inline __attribute__((always_inline))
-#endif
-
-#ifndef _BV
-  #define _BV(B) (1 << (B))
-  #define SBI(A,B) (A |= (1 << (B)))
-  #define CBI(A,B) (A &= ~(1 << (B)))
 #endif
 
 #define nop __asm__ volatile ("nop") // NOP for timing
@@ -47,7 +66,7 @@
      * @return value read
      */
     FORCE_INLINE static bool fastDigitalRead(uint8_t pin) {
-      return g_APinDescription[pin].pPort->PIO_PDSR & g_APinDescription[pin].ulPin;
+      return digitalRead(pin);
     }
 
     /**
@@ -56,10 +75,7 @@
      * @param[in] level value to write
      */
     FORCE_INLINE static void fastDigitalWrite(uint8_t pin, bool value) {
-      if (value)
-        g_APinDescription[pin].pPort->PIO_SODR = g_APinDescription[pin].ulPin;
-      else
-        g_APinDescription[pin].pPort->PIO_CODR = g_APinDescription[pin].ulPin;
+      digitalWrite(pin, value);
     }
 
   #endif // !CORE_TEENSY
@@ -456,7 +472,7 @@
   static constexpr uint8_t digitalPinCount = sizeof(pinMap) / sizeof(pin_map_t);
 
   /** generate bad pin number error */
-  void badPinNumber(void)
+  void badPinNumber()
     __attribute__((error("Pin number is too large or not a constant")));
 
   /**
